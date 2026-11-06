@@ -1,0 +1,20 @@
+services:
+  lab:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: shd-labs:latest
+    working_dir: /home/student/shd-labs
+    volumes:
+      - .:/home/student/shd-labs
+    # SYS_PTRACE: gdb/strace.  SYS_ADMIN: physical frame numbers in /proc/self/pagemap (lab4 part 1).
+    # SYS_NICE: CPU pinning.  seccomp=unconfined: perf counters / personality(ADDR_NO_RANDOMIZE).
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+      - SYS_NICE
+    security_opt:
+      - seccomp=unconfined
+    init: true
+    stdin_open: true
+    tty: true
